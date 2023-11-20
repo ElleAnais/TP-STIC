@@ -1,0 +1,160 @@
+
+
+Lecture d une image en generale se fait comme suit:
+
+var de l image  = cv2.imread('./path', cv2.IMREAD_GRAYSCALE) ou sinon remplacé par 0
+var de l image  = cv2.imread('./path', cv2.IMREAD_COLOR) remplacer par 1
+var de l image  = cv2.imread('./path', cv2.IMREAD_UNCHANGED)chiffre 2 profondeur transparence 
+
+
+
+
+
+# 2. Afficher la définition=dimension d une image
+
+ height, width,canaux = var de l'image.shape   #shape  shape[0] hight et shape[1] width
+print(f"Dimensions de l'image 'camera.png' : {width_camera} x {height_camera} x{canaux} pixels")
+ #ou   sinon faire  print(image.shape)
+
+#3.Générer un histogramme:
+var histogramme = cv2.calcHist([var d image], [0], None, [256], [0, 255])
+
+# cv2.calcHist([image_camera], [0], None, [256], [0, 256])calcule l'histogramme du premier canal (canal bleu) de l'image image_camera. En utilisant [0], (le premier canal).
+# cv2.calcHist([image_camera], [1], None, [256], [0, 256])calcule l'histogramme du deuxième canal (canal vert) de l'image image_camera. En utilisant [1],(le deuxième canal).
+#[2] pour le canal rouge.
+# Dans une image en niveaux de gris, il n'y a qu'un seul canal, alors [0]est utilisé pour obtenir l'histogramme du seul canal disponible. Dans une image couleur, chaque pixel est composé de plusieurs canaux (typiquement rouge, vert et bleu pour une image BGR). Vous pouvez choisir le canal pour lequel vous souhaitez calculer l'histogramme en spécifiant le numéro du canal dans la liste passée à l'argument channels.
+# Si vous avez une image en couleur et que vous souhaitez obtenir un histogramme global de l'intensité, vous pouvez l'utiliser cv2.calcHist([image_camera][0], None, [256], [0, 256])pour obtenir l'histogramme du canal bleu, par exemple.
+#Si vous fournissez un masque (mask), l'histogramme sera calculé uniquement pour les pixels de l'image d'entrée là où le masque est non nul. Cela signifie que seules les valeurs de pixels correspondant aux pixels non nuls du masque contribueront à l'histogramme.
+
+#Si vous ne fournissez pas de masque (en passant None comme valeur pour le paramètre mask), l'histogramme sera calculé pour l'ensemble de l'image, sans exclusion de certaines parties.
+
+#Cela peut être utile dans différentes situations. Par exemple, si vous souhaitez calculer l'histogramme seulement pour une partie spécifique de l'image (définie par le masque), vous pouvez le faire en fournissant un masque approprié. Cela permet de concentrer l'analyse sur une région d'intérêt spécifique de l'image plutôt que sur l'ensemble de l'image.
+
+
+
+#[256] : Il s'agit du nombre de compartiments pour l'histogramme. Dans ce cas, il y a 256 compartiments. Vous pouvez ajuster ce nombre en fonction du niveau de détail souhaité dans votre histogramme.
+
+#[0, 256] : Il s'agit de la plage de valeurs de pixels. L'histogramme sera calculé pour les valeurs de pixels dans la plage [0, 256). Par exemple, si vous travaillez avec des images 8 bits, les valeurs de pixels vont de 0 à 255.
+
+
+3.2.afficher son histogramme
+
+import matplotlib.pyplot as plt     (a bibliothèque matplotlib.pyplot)
+
+plt.plot(hist_camera)   (Tracé de l'histogramme)
+
+plt.title("Histogramme de l'image 'camera.png'")  (Titre du graphique)
+
+plt.xlabel("Niveau de gris")
+plt.ylabel("Fréquence")      (Étiquettes des axes :L'axe x est étiqueté "Niveau de gris" et l'axe y est étiqueté "Fréquence)
+
+plt.show()  (Affichage du graphique)
+
+4.Interprétez son histogramme
+un histogramme représente généralement la fréquence des différentes intensités de pixels.
+
+Contraste : L'étalement des valeurs dans l'histogramme peut indiquer le niveau de contraste dans l'image. Un histogramme étendu sur toute la plage de valeurs suggère un bon contraste, tandis qu'un histogramme concentré sur une plage plus étroite suggère un faible contraste.
+#faible contraste jana a gauche 
+
+Luminosité : La concentration des valeurs près des extrémités de l'histogramme peut donner une idée de la luminosité générale de l'image. Par exemple, si l'histogramme est déplacé vers la gauche, l'image peut être principalement sombre, tandis qu'un déplacement vers la droite peut indiquer une image principalement claire.
+#sombre car principalement a gauche 
+
+Répartition des couleurs : Pour les images couleur, vous pouvez avoir un histogramme pour chaque canal de couleur (rouge, vert, bleu). L'analyse de ces canaux individuels peut fournir des informations sur la répartition des couleurs dans l'image.
+
+Éclairement des zones spécifiques : Si vous utilisez un masque pour calculer l'histogramme d'une région spécifique de l'image, cela peut aider à évaluer la distribution des intensités de pixels dans cette région particulière.
+
+Correction d'image : En comprenant la distribution des niveaux de gris, vous pouvez parfois appliquer des corrections d'image, telles que l'égalisation de l'histogramme, pour améliorer le contraste et la qualité visuelle de l'image.
+
+#l'égalisation de l'histogramme, pour améliorer le contraste et la qualité visuelle de l'image.
+
+5.Ajustez l’histogramme:
+# trouver Imin and Imax using np.min and np.max
+#import numpy as np (biblio)
+Imin = np.min(image_camera)
+Imax = np.max(image_camera)
+#utilisées pour normaliser les intensités des pixels 
+# Perform histogram equalization using Imin and Imax
+equ = np.zeros_like(image_camera)
+for i in range(image_camera.shape[0]):
+    for j in range(image_camera.shape[1]):
+        equ[i, j] = np.uint8((image_camera[i, j] - Imin) * 255 / (Imax - Imin))
+
+#Ces boucles parcourent chaque pixel de l'image d'origine 
+#la valeur de l'image égalisée (equ) est calculée en appliquant une transformation linéaire. La formule utilisée est (pixel_value - Imin) * 255 / (Imax -   ,en fonction des valeurs minimale et maximale trouvées 
+#puis la multiplie par 255 pour ramener la plage des valeurs à [0, 255].
+#le résultat est converti en entier non signé 8 bits (np.uint8).
+
+5.1afficher l’image egalisée =ajustée
+cv2.imshow('Image égalisée', equ)
+cv2.waitKey(0) (blocker l image )
+cv2.destroyAllWindows()
+
+5.2 afficher l histogramme egalisé:
+hist_egalizee = cv2.calcHist([equ], [0], None, [256], [0, 256])
+plt.plot(hist_egalizee)
+plt.title('Histogramme de l\'image egalizeé')
+plt.show()
+
+6.inerser l image égalisée
+inverted_img = cv2.bitwise_not(equ)
+#c une  opération de négation bit à bit sur une image. Cela signifie que chaque bit dans la représentation binaire de l'image est inversé, c'est-à-dire que les pixels noirs deviennent blancs et vice versa.
+#cv2.bitwise_not(equ): Cette fonction prend chaque pixel de l'image equ et inverse ses bits. Si un pixel avait une valeur élevée, elle devient basse, et vice versa.
+
+6.1 Afficher l’image inversée
+cv2.imshow('Image inversée', inverted_img)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+6.2 afficher son histogramme inversée:
+
+hist_inverted = cv2.calcHist([inverted_img], [0], None, [256], [0, 256])
+plt.plot(hist_inverted)
+plt.title('Histogramme de l\'image inversée')
+plt.show()
+   
+
+7- Appliquez l’opération 1,2 et 3 sur l’image « mountain.jpg »
+
+
+
+
+
+
+
+
+Exercice 2 :
+
+1,2,3 pareil
+4- Egaliser son histogramme avec la méthode equalizeHist et afficher l’image
+obtenue.
+
+equalized_image = cv2.equalizeHist(original_image)
+
+4.1 afficher l’image
+obtenue (pareil)
+
+
+
+
+
+
+Exercice 3 :
+
+Téléchargez 2 images : image1 et image2, puis réalisez les opérations suivantes :
+1- Affichez : image1 + image2
+2- Affichez : image2 – image1
+3- Affichez : image1* image2
+
+etapes:
+1.lire les image avec imread 
+2.verifie que les images ont les mêmes dimensions
+image2 = cv2.resize(image2, (image1.shape[1], image1.shape[0]))
+3.addition de deux image
+resultat_addition = cv2.add(image1, image2)
+4. la soustraction de deux image
+resultat_soustraction = cv2.subtract(image2, image1)
+5.la multiplication de deux image 
+resultat_multiplication = cv2.multiply(image1, image2)
+
+
+
