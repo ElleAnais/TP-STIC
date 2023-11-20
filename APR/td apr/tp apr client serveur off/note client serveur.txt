@@ -1,0 +1,136 @@
+tp apr client serveur :
+
+C:\Users\User>cd E:\univ\APR  WIRESHARK\tp apr client serveur off
+C:\Users\User>node "E:\univ\APR  WIRESHARK\tp apr client serveur off\server.js"
+Server listening on port 3000
+Client connected
+Received from client: Hello, server!
+Client disconnected
+
+
+
+
+
+
+C:\Users\User>cd E:\univ\APR  WIRESHARK\tp apr client serveur off
+
+C:\Users\User>node "E:\univ\APR  WIRESHARK\tp apr client serveur off\client.js"
+Connected to server
+Received from server: Server: Hello, server! (Renvoyé par le serveur)
+Disconnected from server
+
+C:\Users\User>
+
+
+
+
+
+dans visualstudio
+fichier serveur.js:
+// server.js
+const net = require('net');
+
+const server = net.createServer((socket) => {
+  console.log('Client connected');
+
+  // Événement lorsque le serveur reçoit des données du client
+  socket.on('data', (data) => {
+    const receivedMessage = data.toString();
+    console.log(`Received from client: ${receivedMessage}`);
+
+    // Ajouter au message qu'il a été renvoyé par le serveur
+    const responseMessage = `Server: ${receivedMessage} (Renvoyé par le serveur)`;
+
+    // Transmettre la réponse uniquement au client qui a envoyé le message
+    socket.write(responseMessage);
+
+    // Fermer la connexion
+    socket.end();
+  });
+
+  // Événement lorsque la connexion est fermée
+  socket.on('end', () => {
+    console.log('Client disconnected');
+  });
+});
+
+// Laissez le serveur écouter sur le port 3000
+server.listen(3000, () => {
+  console.log('Server listening on port 3000');
+});
+
+
+
+
+
+fichier client.js:
+// client.js
+const net = require('net');
+
+// Créez une instance du client
+const client = net.createConnection({ port: 3000 }, () => {
+  console.log('Connected to server');
+
+  // Envoyez un message au serveur
+  client.write('Hello, server!');
+});
+
+// Événement lorsque le client reçoit des données du serveur
+client.on('data', (data) => {
+  const receivedMessage = data.toString();
+  console.log(`Received from server: ${receivedMessage}`);
+});
+
+// Événement lorsque la connexion est fermée
+client.on('end', () => {
+  console.log('Disconnected from server');
+});
+
+
+
+
+
+
+
+
+
+######pour que je puisses inserer le message moi meme utiliser ce code dans client.js:
+// client.js
+const net = require('net');
+
+// Créez une instance du client
+const client = net.createConnection({ port: 3000 }, () => {
+  console.log('Connected to server');
+
+ // Lire l'entrée de l'utilisateur depuis la console et l'envoyer au serveur
+process.stdin.setEncoding('utf-8');
+console.log("Tapez un message et appuyez sur Entrée pour l'envoyer au serveur :");
+
+process.stdin.on('data', (input) => {
+  // Envoyer l'entrée de l'utilisateur au serveur
+  client.write(input.trim());
+
+  // Demander à l'utilisateur pour le prochain message
+  console.log("Tapez un autre message et appuyez sur Entrée :");
+});
+});
+
+// Événement lorsque le client reçoit des données du serveur
+client.on('data', (data) => {
+  const messageReçu = data.toString();
+
+});
+
+// Événement lorsque le client reçoit des données du serveur
+client.on('data', (data) => {
+  const receivedMessage = data.toString();
+  console.log(`Received from server: ${receivedMessage}`);
+});
+
+// Événement lorsque la connexion est fermée
+client.on('end', () => {
+  console.log('Disconnected from server');
+});
+
+
+

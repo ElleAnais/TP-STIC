@@ -1,0 +1,196 @@
+Redouane, [11/11/2023 21:14]
+### 1. ipconfig:
+   - Parameters:
+     1. /all - Affiche toutes les informations de configuration, y compris les adresses physiques et DHCP.
+     2. /release - Libère la configuration DHCP actuelle pour toutes les interfaces.
+     3. /renew - Renouvelle la configuration DHCP pour toutes les interfaces.
+     4. /flushdns - Vide le cache DNS.
+     5. /displaydns - Affiche le contenu du cache DNS.
+     6. /registerdns - Actualise tous les enregistrements DNS et DHCP.
+     7. /showclassid - Affiche tous les ID de classe DHCP autorisés pour l'interface.
+     8. /setclassid - Modifie l'ID de classe DHCP pour l'interface spécifiée.
+     9. /showclassid6 - Affiche tous les ID de classe DHCPv6 autorisés pour l'interface.
+     10. /setclassid6 - Modifie l'ID de classe DHCPv6 pour l'interface spécifiée.
+
+### 2. ping:
+   - Parameters:
+     1. -n count - Spécifie le nombre de requêtes à envoyer.
+     2. -l size - Définit la taille des données à envoyer.
+     3. -t - Effectue un ping continu jusqu'à l'arrêt manuel (CTRL+C).
+     4. -4 - Force l'utilisation de l'IPv4.
+     5. -6 - Force l'utilisation de l'IPv6.
+     6. -a - Résout les adresses IP en noms d'hôtes, s'il est possible de le faire.
+     7. -c count - Arrête le ping après avoir envoyé le nombre spécifié de paquets.
+     8. -i interval - Définit l'intervalle entre les envois de paquets en millisecondes.
+     9. -s packetsize - Définit la taille des paquets à envoyer.
+     10. -w timeout - Définit le délai d'expiration pour chaque paquet.
+
+### 3. nslookup:
+   - Parameters:
+     1. <hostname> - Spécifie le nom du domaine à interroger.
+     2. <server> - Spécifie le serveur DNS à interroger.
+     3. -type=<query_type> - Spécifie le type de requête DNS (A, AAAA, MX, etc.).
+     4. -debug - Active le mode débogage.
+     5. -class=<query_class> - Spécifie la classe de la requête DNS (IN, CH, etc.).
+     6. -timeout=value - Définit la durée maximale d'une requête.
+     7. -retry=value - Définit le nombre de tentatives avant l'abandon.
+     8. -querytype=value - Définit le type de requête DNS (A, AAAA, MX, etc.).
+     9. -port=value - Spécifie le numéro de port du serveur DNS.
+     10. -vc - Effectue la requête via une connexion TCP.
+
+### 4. arp:
+   - Parameters:
+     1. -a - Affiche l'ensemble de la table ARP.
+     2. -g - Identique à -a, affiche les entrées ARP pour l'interface spécifiée.
+     3. -d - Efface une entrée ARP spécifique.
+     4. -s - Ajoute une entrée statique ARP.
+     5. -n - Affiche les adresses IP et physiques sous forme numérique.
+     6. -v - Active le mode verbeux, affiche les colonnes d'en-tête.
+     7. -i interface - Spécifie l'interface à utiliser (si plusieurs interfaces existent).
+     8. -c - Efface l'ensemble du cache ARP.
+     9. -b - Affiche les adresses IP et physiques sous forme hexadécimale.
+     10. -u - Affiche les adresses IP sans résoudre les noms d'hôtes.
+
+### 5. netstat:
+   - Parameters:
+     1. -a - Affiche toutes les connexions et ports d'écoute.
+     2. -n - Affiche les adresses et numéros de port sous forme numérique.
+     3. -b - Affiche le nom des fichiers exécutables impliqués dans la création de chaque connexion ou écoute.
+     4. -o - Affiche l'ID du processus associé à chaque connexion.
+     5. -r - Affiche la table de routage.
+     6. -p protocol - Affiche les statistiques pour un protocole spécifié (TCP, UDP, etc.).
+     7. -s - Affiche les statistiques par protocole.
+     8. -e - Affiche les statistiques Ethernet, telles que le nombre de paquets envoyés et reçus.
+     9. -c - Affiche le nombre de connexions actives et en attente.
+     10. -l - Affiche uniquement les connexions en écoute.
+
+Redouane, [11/11/2023 21:14]
+### 6. nbstat:
+   - Parameters:
+     1. -n - Affiche les noms NetBIOS locaux et distants.
+     2. -c - Affiche les statistiques NetBIOS actuelles, y compris les sessions et les ouvertures de fichiers.
+     3. -r - Liste des noms résolus via la diffusion.
+     4. -RR - Purge et recharge la table de cache de noms NetBIOS.
+     5. -S - Affiche les statistiques de session NetBIOS.
+     6. -R - Purge le cache de noms NetBIOS et réinitialise la session.
+     7. -H - Affiche les statistiques des sessions NetBIOS par adresse IP.
+     8. -U - Affiche les statistiques des sessions NetBIOS par nom d'utilisateur.
+     9. -a - Affiche toutes les connexions NetBIOS (équivalent à "netstat -a").
+     10. -d - Affiche les noms NetBIOS des ordinateurs distants.
+
+### 7. route:
+   - Parameters:
+     1. -p - Ajoute une route persistante.
+     2. ADD - Ajoute une route.
+     3. DELETE - Supprime une route.
+     4. CHANGE - Modifie les attributs d'une route existante.
+     5. -f - Efface la table de routage après chaque commande.
+     6. PRINT - Affiche la table de routage sans modifier quoi que ce soit.
+     7. -s dest mask gateway metric if - Ajoute une
+
+ route avec les spécifications fournies.
+     8. -d - Efface toutes les routes de la table de routage.
+     9. -h - Affiche l'aide pour la commande.
+     10. -S - Affiche les statistiques actuelles de NetBIOS.
+
+### 8. tracert:
+   - Parameters:
+     1. -d - N'effectue pas de résolution DNS sur les adresses IP des routeurs intermédiaires.
+     2. -h maximum_hops - Spécifie le nombre maximal de sauts (hops) à tracer.
+     3. -j host-list - Liste d'hôtes pour tracer la route le long du chemin.
+     4. -w timeout - Spécifie le délai d'attente pour les réponses en millisecondes.
+     5. -4 - Force l'utilisation de l'IPv4.
+     6. -6 - Force l'utilisation de l'IPv6.
+     7. -a - Résout les adresses IP en noms d'hôtes.
+     8. -c - Utilise des requêtes de type timestamp pour mesurer le temps de transit.
+     9. -h - Spécifie le TTL initial (limite de saut) pour les paquets.
+     10. -p - Spécifie la liste des ports UDP pour les requêtes.
+
+### 9. pathping:
+   - Parameters:
+     1. <destination> - Spécifie la destination pour laquelle tracer le chemin.
+     2. -n - N'affiche pas les noms de domaine lors du suivi.
+     3. -h maximum_hops - Spécifie le nombre maximal de sauts (hops) à tracer.
+     4. -q num_queries - Nombre de requêtes à envoyer à chaque saut.
+     5. -w timeout - Spécifie le délai d'attente en millisecondes pour chaque réponse.
+     6. -p - Affiche les statistiques pour chaque saut.
+     7. -g - Force l'utilisation de l'interface spécifiée lors de la recherche du chemin.
+     8. -H - Spécifie le nombre maximum d'écarts de sauts (hops) pour chaque saut.
+     9. -T - Ne met pas en cache les informations de temps de réponse.
+     10. -P - Affiche les statistiques détaillées pour chaque nœud du chemin.
+
+
+
+
+
+
+
+
+
+
+#####
+Les commandes réseau les plus utilisées au quotidien dépendent des besoins spécifiques de l'utilisateur et du contexte. Cependant, voici une liste des commandes qui sont généralement considérées comme essentielles et fréquemment utilisées:
+
+1. **ipconfig**:
+   - /all - Affiche toutes les informations de configuration, y compris les adresses physiques et DHCP.
+   - /release - Libère la configuration DHCP actuelle pour toutes les interfaces.
+   - /renew - Renouvelle la configuration DHCP pour toutes les interfaces.
+
+2. **ping**:
+   - -n count - Spécifie le nombre de requêtes à envoyer.
+   - -t - Effectue un ping continu jusqu'à l'arrêt manuel (CTRL+C).
+   - -a - Résout les adresses IP en noms d'hôtes, s'il est possible de le faire.
+
+3. **nslookup**:
+   - <hostname> - Spécifie le nom du domaine à interroger.
+   - <server> - Spécifie le serveur DNS à interroger.
+   - -type=<query_type> - Spécifie le type de requête DNS (A, AAAA, MX, etc.).
+
+4. **arp**:
+   - -a - Affiche l'ensemble de la table ARP.
+   - -d - Efface une entrée ARP spécifique.
+   - -s - Ajoute une entrée statique ARP.
+
+5. **netstat**:
+   - -a - Affiche toutes les connexions et ports d'écoute.
+   - -n - Affiche les adresses et numéros de port sous forme numérique.
+   - -o - Affiche l'ID du processus associé à chaque connexion.
+
+6. **tracert**:
+   - -d - N'effectue pas de résolution DNS sur les adresses IP des routeurs intermédiaires.
+   - -h maximum_hops - Spécifie le nombre maximal de sauts (hops) à tracer.
+   - -w timeout - Spécifie le délai d'attente pour les réponses en millisecondes.
+
+7. **route**:
+   - ADD - Ajoute une route.
+   - DELETE - Supprime une route.
+   - PRINT - Affiche la table de routage sans modifier quoi que ce soit.
+
+Ces commandes sont souvent utilisées pour diagnostiquer des problèmes réseau, vérifier la connectivité, afficher des informations sur les connexions en cours et gérer la configuration réseau. Les choix spécifiques dépendront des besoins et des scénarios particuliers
+Je comprends, je m'excuse pour la confusion. Voici une liste de 3 commandes supplémentaires pour compléter la liste des 6 précédentes :
+
+7. **route**:
+   - ADD - Ajoute une route.
+   - DELETE - Supprime une route.
+   - PRINT - Affiche la table de routage sans modifier quoi que ce soit.
+
+8. **nbstat**:
+   - -n - Affiche les noms NetBIOS locaux et distants.
+   - -c - Affiche les statistiques NetBIOS actuelles, y compris les sessions et les ouvertures de fichiers.
+
+9. **pathping**:
+   - <destination> - Spécifie la destination pour laquelle tracer le chemin.
+   - -n - N'affiche pas les noms de domaine lors du suivi.
+
+Ainsi, la liste complète des 9 commandes est maintenant :
+
+1. ipconfig /all
+2. ipconfig /release
+3. ping -n count
+4. ping -t
+5. nslookup <hostname>
+6. nslookup -type=<query_type>
+7. arp -a
+8. netstat -a
+9. tracert -d
+10. route ADD.
