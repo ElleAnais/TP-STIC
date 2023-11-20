@@ -1,0 +1,161 @@
+
+
+1)import numpy as np (es opérations numériques)
+import matplotlib.pyplot as pl  (la visualisation)
+import pandas as pd (la manipulation des données.)
+
+
+
+2)df = pd.read_csv('E:/univ/APM/apm tp/tp1partie2 et 3fichier important house de la prof/house.txt')
+
+( Cette ligne lit un fichier CSV ('house.txt') et stocke les données dans un DataFrame Pandas appelé `df`)
+( donc house.txt dans variable df stockée dans le data frame )
+
+
+1. df.to_csv('./house.csv', index=False): Cette ligne prend le DataFrame df, qui a été créé en lisant le fichier CSV initial (house.txt), et le sauvegarde dans un nouveau fichier CSV (house.csv). L'argument index=False signifie que les indices de ligne ne seront pas inclus dans le fichier CSV généré.
+2. features=['area','bedrooms','floors','age','price']: Cette ligne crée une liste appelée features qui contient les noms des colonnes que vous souhaitez attribuer à votre DataFrame lors de la lecture du fichier CSV. 
+3. house = pd.read_csv('./house.csv', names=features) le DataFrame house est créé avec des colonnes nommées 'area', 'bedrooms', 'floors', 'age', et 'price'.
+4. house.head(): Cette ligne affiche les premières lignes du DataFrame house à des fins de vérification. 
+
+
+
+
+5)
+X=house.iloc[:,:4]
+y=house.iloc[:,4]
+
+
+- Ces lignes divisent le DataFrame `house` en deux parties : `X` contient les caractéristiques (les quatre premières colonnes), et `y` contient les étiquettes (la cinquième colonne).
+
+
+6)
+X.head()
+
+y.head()
+
+ne méthode de la bibliothèque pandas, appliquée à un objet de type DataFrame. Elle est utilisée pour afficher les premières lignes d'un DataFrame.
+
+
+7)
+
+X=np.array(X)
+from sklearn.model_selection import train_test_split
+X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=1/3,random_state=0)
+
+ convertit la structure de données X en un tableau NumPy. 
+
+
+ en utilisant la fonction `train_test_split` de scikit-learn.
+
+• X : Cela représente les caractéristiques du jeux de donnees.
+• y : Cela représente la variable cible que vous essayez de prédire.
+La fonction train_test_split prend les caractéristiques X et la variable cible y et les divise en quatre ensembles :
+• X_train : C'est le sous-ensemble des caractéristiques utilisé pour entraîner le modèle.
+• X_test : C'est le sous-ensemble des caractéristiques utilisé pour tester le modèle.
+• y_train : C'est la variable cible correspondante pour l'entraînement du modèle.
+• y_test : C'est la variable cible correspondante pour les tests du modèle.
+
+Les paramètres de la fonction train_test_split sont les suivants :
+• test_size=1/3 : Cela spécifie que 1/3 (environ 33%) des données seront utilisées pour le test, et le reste (environ 67%) sera utilisé pour l'entraînement.
+• random_state=0 : Cela fixe la graine du générateur de nombres aléatoires, assurant ainsi que la division des données reste la même à chaque exécution du code. Cela garantit la reproductibilité des résultats.
+
+8) Prediction:
+
+
+def prediction(X, a):
+    y_hat = np.dot(X, a)
+    return y_hat
+
+# testing of this function : 
+X_t =np.array([[1., 5.],[1., 10.],[1., 8]])
+theta_t = np.array([0.25,0.5])
+a=prediction(X_t,theta_t)
+print(X_t)
+print(theta_t)
+print(a)
+
+
+- Cette fonction `prediction` prend les données `X`
+les caractéristiques d'un ensemble de données
+ et les paramètres du vecteur `a`
+paramètres d'un modèle de régression linéaire
+ pour calculer les prédictions `y_hat` en utilisant la multiplication matricielle avec .dot 
+Retourner y_hat
+Creee un tableau de donne x diviser en 3 tableaux diff
+Créer tableau theta 
+Faire prediction dans var a qui est la multiplication des deux matrices et vecteur 
+affiche les tableaux de x
+Puis de theta 
+Puis la multiplication a
+
+
+9)fonction cout 
+
+Le modèle de régression linéaire simple
+
+Valeur observée y=a0+a1*xi+𝜀𝑖
+valeur prédite 𝑦_hat = 𝑎0_hat +a1_hat*xi
+Erreur de predication 𝜀𝑖 = 𝑦𝑖 − 𝑦_hat
+(𝜀𝑖)*2 =( 𝑦𝑖 − 𝑦_hat)*2
+(𝜀𝑖)*2 =( 𝑦𝑖 −(𝑎0_hat +a1_hat*xi))*2
+
+Fonction cout 
+
+
+
+
+
+
+def J(X, Y, a):
+    y_hat = prediction(X, a)        ( apl a la fonction prediction  precedente )
+    J = np.mean((Y - y_hat)**2) / 2       ( calculer fonction cout  avec Np.mean calcule la moyenne de tout les 𝜀𝑖 au carré de i à n)
+    return J                                             (retourne le cout )
+
+
+
+# Test de la fonction coût avec des données d'exemple
+X_t = np.array([[1., 5.], [1., 10.], [1., 8.]])
+Y_t = np.array([3., 5., 4.5])
+a = np.array([0.25, 0.5])
+cost = J(X_t, Y_t, theta_t)
+print(cost)
+
+
+
+10)### III-7. Calcul des dérivées partielles
+
+
+
+
+
+#todo
+# ecrire la fonction derivees qui calcule les dérivées partielles par rapport à chaque parametre du modèle
+def derivees_partielles(X, Y, a):        (nouvelle fonction derivee )
+  """
+  Calculer  derivées paertielles.
+    
+  Args:
+    X (ndarray : Data, n examples 
+    Y (ndarray): Label, n labels   
+    a          : model parameters  
+  
+  Returns
+      derivees
+  """
+  
+  erreur = (Y - prediction(X, a))                  (𝜀𝑖 = 𝑦𝑖 − 𝑦_hat) en utilisant la fonction prediction
+
+  # dérivées -1/len(y) le mean est dans la fonction predicition  * on a yi_y_hat qui est l erreur multiplier par la matrice Xi qui est apl X.T
+  derivees = -(1 / len(Y)) * np.dot(X.T, erreur)
+  return derivees 
+
+# Test de la fonction dérivées avec des données d'exemple
+X_t = np.array([[1., 5.], [1., 10.], [1., 8]])
+theta_t = np.array([0.25, 0.5])
+Y_t = np.array([3., 5., 4.5])
+print("résultats:", derivees_partielles(X_t, Y_t, theta_t))
+
+
+11)### III-8.  l'algorithme de descente de gradient
+
+
